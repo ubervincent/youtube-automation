@@ -186,22 +186,22 @@ BIBLICAL_TOPICS = {
 
 def create_sermon_prompt(topic: str, topic_data: dict) -> str:
     """Create a detailed prompt for the OpenAI API."""
-    prompt = f"""Write a 1000-word sermon on {topic}. The sermon must be EXACTLY 1000 words long.
+    prompt = f"""Write an 1800-word sermon on {topic}. The sermon must be EXACTLY 1800 words long.
 
 Structure the sermon in this way:
-1. Warm Personal Introduction (100 words)
+1. Warm Personal Introduction (180 words)
    - Begin with "Dear friends in Christ, thank you for joining me today."
    - Introduce the topic personally and emotionally
    - Share why this topic matters in our daily lives
 
-2. Main Teaching Points (700 words total, ~175 words each):
+2. Main Teaching Points (1260 words total, ~315 words each):
    {', '.join(f'- {point}' for point in topic_data['main_points'])}
 
-3. Practical Application (100 words)
+3. Practical Application (180 words)
    - Real-life examples and solutions
    - Specific steps for daily implementation
 
-4. Encouraging Conclusion (100 words)
+4. Encouraging Conclusion (180 words)
    - Summarize key points
    - End with a prayer or blessing
 
@@ -218,7 +218,7 @@ Important Style Guidelines:
 - Maintain a compassionate tone
 
 Remember:
-- The sermon MUST be exactly 1000 words
+- The sermon MUST be exactly 1800 words
 - Each section should flow naturally into the next
 - Every scripture reference should be explained practically
 - End with hope and encouragement
@@ -235,7 +235,7 @@ def generate_sermon_with_openai(prompt: str) -> str:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a knowledgeable and compassionate biblical teacher creating engaging, scripture-based daily devotional messages. You MUST write exactly 1000 words - no more, no less."
+                    "content": "You are a knowledgeable and compassionate biblical teacher creating engaging, scripture-based daily devotional messages. You MUST write exactly 1800 words - no more, no less."
                 },
                 {
                     "role": "user",
@@ -243,7 +243,7 @@ def generate_sermon_with_openai(prompt: str) -> str:
                 }
             ],
             temperature=0.7,
-            max_tokens=2000,
+            max_tokens=3500,
             presence_penalty=0.6,
             frequency_penalty=0.6
         )
@@ -252,20 +252,29 @@ def generate_sermon_with_openai(prompt: str) -> str:
         word_count = len(content.split())
         
         # If the content is too short, generate more in chunks
-        while word_count < 950:  # Allow for some flexibility
-            remaining_words = 1000 - word_count
-            last_sentences = ' '.join(content.split()[-30:])
+        while word_count < 1750:  # Allow for some flexibility
+            remaining_words = 1800 - word_count
+            last_sentences = ' '.join(content.split()[-50:])
             
-            continuation_prompt = f"""Continue this message to add approximately {remaining_words} more words.
-            The current message ends with: "{last_sentences}"
-            Continue naturally from this point, maintaining the same style and flow."""
+            continuation_prompt = f"""Continue this sermon to add approximately {remaining_words} more words.
+            Here's the current ending for context: "{last_sentences}"
+            
+            Important:
+            - You may modify the last few sentences of the previous content to ensure smooth flow
+            - Maintain the same style, tone, and thematic consistency
+            - Ensure natural transitions between ideas
+            - Keep building toward the sermon's conclusion"""
             
             continuation = client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are continuing a daily devotional message. Maintain the same style and flow."
+                        "content": "You are continuing a sermon. Focus on maintaining flow and coherence with the previous content. You may adjust the ending of the previous section if needed for better transition."
+                    },
+                    {
+                        "role": "assistant",
+                        "content": content  # Provide full context
                     },
                     {
                         "role": "user",
@@ -273,22 +282,27 @@ def generate_sermon_with_openai(prompt: str) -> str:
                     }
                 ],
                 temperature=0.7,
-                max_tokens=1000
+                max_tokens=2000
             )
             
             additional_content = continuation.choices[0].message.content
-            content = content + "\n\n" + additional_content
+            last_period = content.rfind('.')
+            if last_period != -1:
+                content = content[:last_period + 1] + "\n\n" + additional_content
+            else:
+                content = content + "\n\n" + additional_content
+                
             word_count = len(content.split())
             print(f"Current sermon length: {word_count} words")
             
             # Prevent infinite loops
-            if len(content.split()) >= 950:
+            if len(content.split()) >= 1750:
                 break
         
         # Final word count check
         final_word_count = len(content.split())
-        if final_word_count < 950 or final_word_count > 1050:
-            print(f"Warning: Final sermon length is {final_word_count} words (target: 1000)")
+        if final_word_count < 1750 or final_word_count > 1850:
+            print(f"Warning: Final sermon length is {final_word_count} words (target: 1800)")
         
         return content
     except Exception as e:
