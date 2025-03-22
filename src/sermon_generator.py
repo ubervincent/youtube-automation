@@ -305,10 +305,11 @@ def save_sermon(content: str, topic: str) -> str:
     filename = f"{timestamp}_{topic.lower().replace(' ', '_')}.txt"
     
     ensure_data_directory()
-    with open(filename, 'w', encoding='utf-8') as f:
+    filepath = os.path.join("data", filename)  # Create path in data directory
+    with open(filepath, 'w', encoding='utf-8') as f:
         f.write(content)
     
-    return str(filename)
+    return str(filepath)  # Return full filepath instead of just filename
 
 def generate_sermon():
     """Main function to generate a sermon."""

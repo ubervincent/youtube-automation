@@ -5,7 +5,6 @@ from pathlib import Path
 from src.sermon_generator import main as generate_sermon
 from src.bible_tts import main as convert_to_speech
 from src.mix_audio import process_all_sermons
-from src.create_video import process_all_sermons as create_videos
 
 def ensure_directories():
     """Ensure all necessary directories exist."""
