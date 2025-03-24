@@ -181,47 +181,186 @@ BIBLICAL_TOPICS = {
             "Titus 1:5-9",
             "1 Peter 5:1-4"
         ]
+    },
+    "Overcoming Sin": {
+        "main_points": [
+            "Understanding the Nature of Sin",
+            "The Power of Christ's Redemption",
+            "Practical Steps for Victory",
+            "Living in Freedom"
+        ],
+        "key_scriptures": [
+            "Romans 6:23",
+            "1 John 1:9",
+            "James 1:14-15",
+            "Romans 8:1-2"
+        ]
+    },
+    "Sexual Purity": {
+        "main_points": [
+            "God's Design for Sexuality",
+            "Battling Temptation",
+            "Healing from Past Wounds",
+            "Walking in Holiness"
+        ],
+        "key_scriptures": [
+            "1 Thessalonians 4:3-5",
+            "Matthew 5:27-28",
+            "1 Corinthians 6:18-20",
+            "Hebrews 13:4"
+        ]
+    },
+    "Repentance": {
+        "main_points": [
+            "True Biblical Repentance",
+            "God's Heart for Restoration",
+            "Steps to Genuine Change",
+            "Living a Transformed Life"
+        ],
+        "key_scriptures": [
+            "2 Corinthians 7:10",
+            "Acts 3:19",
+            "Psalm 51:1-12",
+            "Ezekiel 36:26"
+        ]
+    },
+    "Identity in Christ": {
+        "main_points": [
+            "Understanding Your New Nature",
+            "Living as God's Child",
+            "Overcoming False Identity",
+            "Walking in Your Calling"
+        ],
+        "key_scriptures": [
+            "2 Corinthians 5:17",
+            "Galatians 2:20",
+            "Ephesians 1:3-6",
+            "1 Peter 2:9"
+        ]
+    },
+    "Biblical Marriage": {
+        "main_points": [
+            "God's Design for Marriage",
+            "Love and Respect",
+            "Navigating Challenges",
+            "Building a Christ-Centered Home"
+        ],
+        "key_scriptures": [
+            "Ephesians 5:21-33",
+            "Genesis 2:24",
+            "1 Corinthians 13:4-7",
+            "Colossians 3:18-19"
+        ]
+    },
+    "Spiritual Disciplines": {
+        "main_points": [
+            "The Power of God's Word",
+            "Developing Prayer Life",
+            "Fasting and Meditation",
+            "Worship as a Lifestyle"
+        ],
+        "key_scriptures": [
+            "Joshua 1:8",
+            "Psalm 119:105",
+            "Matthew 6:16-18",
+            "Colossians 3:16"
+        ]
+    },
+    "Dealing with Anger": {
+        "main_points": [
+            "Understanding Righteous Anger",
+            "Overcoming Sinful Anger",
+            "Practical Steps for Peace",
+            "Restoration and Reconciliation"
+        ],
+        "key_scriptures": [
+            "Ephesians 4:26-27",
+            "James 1:19-20",
+            "Proverbs 15:1",
+            "Matthew 5:21-24"
+        ]
+    },
+    "Biblical Contentment": {
+        "main_points": [
+            "Finding Peace in Christ",
+            "Overcoming Comparison",
+            "Gratitude in All Circumstances",
+            "Eternal Perspective"
+        ],
+        "key_scriptures": [
+            "Philippians 4:11-13",
+            "1 Timothy 6:6-8",
+            "Hebrews 13:5",
+            "Matthew 6:33"
+        ]
+    },
+    "Spiritual Warfare": {
+        "main_points": [
+            "Understanding the Enemy",
+            "The Armor of God",
+            "Prayer and Warfare",
+            "Victory in Christ"
+        ],
+        "key_scriptures": [
+            "Ephesians 6:10-18",
+            "2 Corinthians 10:3-5",
+            "James 4:7",
+            "1 John 4:4"
+        ]
     }
 }
 
 def create_sermon_prompt(topic: str, topic_data: dict) -> str:
     """Create a detailed prompt for the OpenAI API."""
-    prompt = f"""Write an 1800-word sermon on {topic}. The sermon must be EXACTLY 1800 words long.
+    prompt = f"""Write a 1250-word sermon from Jesus Christ's perspective, speaking directly to a modern audience. The sermon must be EXACTLY 1250 words long.
 
 Structure the sermon in this way:
-1. Warm Personal Introduction (180 words)
-   - Begin with "Dear friends in Christ, thank you for joining me today."
-   - Introduce the topic personally and emotionally
-   - Share why this topic matters in our daily lives
+1. Loving Greeting (125 words)
+   - Begin with "My beloved children,"
+   - Speak with divine authority yet tender compassion
+   - Connect the eternal truth with present-day relevance
 
-2. Main Teaching Points (1260 words total, ~315 words each):
+2. Main Teaching Points (875 words total, ~219 words each):
    {', '.join(f'- {point}' for point in topic_data['main_points'])}
+   For each point:
+   - Draw parallels between biblical parables and modern situations
+   - Reference both ancient wisdom and contemporary challenges
+   - Speak with divine insight while remaining accessible
 
-3. Practical Application (180 words)
-   - Real-life examples and solutions
-   - Specific steps for daily implementation
+3. Heart-to-Heart Application (125 words)
+   - Provide guidance with divine wisdom
+   - Share eternal principles for daily living
+   - Speak to both individual and communal transformation
 
-4. Encouraging Conclusion (180 words)
-   - Summarize key points
-   - End with a prayer or blessing
+4. Blessing and Commission (125 words)
+   - Affirm your eternal love and presence
+   - Give specific encouragement for the journey ahead
+   - End with a blessing that bridges heaven and earth
 
-Key Scriptures to Reference and Explain:
+Key Scriptures to Weave In Naturally:
 {', '.join(topic_data['key_scriptures'])}
 
-Important Style Guidelines:
-- Use a warm, conversational tone throughout
-- Include personal anecdotes and real-life examples
-- Address the audience directly using "you" and "we"
-- Make deep theological concepts practical and accessible
-- Provide specific, actionable guidance for daily life
-- Use metaphors from everyday life
-- Maintain a compassionate tone
+Essential Style Elements:
+- Maintain Jesus' unique voice - authoritative yet deeply compassionate
+- Use "I" statements that reflect divine perspective
+- Include modern metaphors while preserving timeless truth
+- Reference your earthly ministry and teachings where relevant
+- Speak with both divine wisdom and human understanding
+- Address both personal and communal aspects of faith
+- Balance eternal truth with present-day application
+
+Voice Guidelines:
+- Use phrases like "As I told my disciples then, I tell you now..."
+- Draw parallels: "Just as I walked with my followers in Galilee, I walk with you today..."
+- Connect past and present: "The truth I spoke on the mountainside remains true in your modern world..."
+- Show continuity: "My words to the woman at the well speak to your heart today..."
 
 Remember:
-- The sermon MUST be exactly 1800 words
-- Each section should flow naturally into the next
-- Every scripture reference should be explained practically
-- End with hope and encouragement
+- The sermon MUST be exactly 1250 words
+- Maintain Jesus' unique voice throughout
+- Blend biblical authority with contemporary relevance
+- Every scripture should feel personally delivered
+- End with divine blessing and commissioning
 
 Format the text as a continuous sermon without section headers or numbers."""
     return prompt
@@ -235,7 +374,7 @@ def generate_sermon_with_openai(prompt: str) -> str:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a knowledgeable and compassionate biblical teacher creating engaging, scripture-based daily devotional messages. You MUST write exactly 1800 words - no more, no less."
+                    "content": "You are channeling the voice and perspective of Jesus Christ speaking to a modern audience. Blend divine authority with intimate compassion, eternal wisdom with contemporary understanding. Maintain the balance between heavenly perspective and earthly relevance. You MUST write exactly 1250 words - no more, no less."
                 },
                 {
                     "role": "user",
@@ -243,7 +382,7 @@ def generate_sermon_with_openai(prompt: str) -> str:
                 }
             ],
             temperature=0.7,
-            max_tokens=3500,
+            max_tokens=2500,
             presence_penalty=0.6,
             frequency_penalty=0.6
         )
@@ -252,9 +391,9 @@ def generate_sermon_with_openai(prompt: str) -> str:
         word_count = len(content.split())
         
         # If the content is too short, generate more in chunks
-        while word_count < 1750:  # Allow for some flexibility
-            remaining_words = 1800 - word_count
-            last_sentences = ' '.join(content.split()[-50:])
+        while word_count < 1200:  # Allow for some flexibility
+            remaining_words = 1250 - word_count
+            last_sentences = ' '.join(content.split()[-150:])
             
             continuation_prompt = f"""Continue this sermon to add approximately {remaining_words} more words.
             Here's the current ending for context: "{last_sentences}"
@@ -296,13 +435,13 @@ def generate_sermon_with_openai(prompt: str) -> str:
             print(f"Current sermon length: {word_count} words")
             
             # Prevent infinite loops
-            if len(content.split()) >= 1750:
+            if len(content.split()) >= 1200:
                 break
         
         # Final word count check
         final_word_count = len(content.split())
-        if final_word_count < 1750 or final_word_count > 1850:
-            print(f"Warning: Final sermon length is {final_word_count} words (target: 1800)")
+        if final_word_count < 1200 or final_word_count > 1300:
+            print(f"Warning: Final sermon length is {final_word_count} words (target: 1250)")
         
         return content
     except Exception as e:

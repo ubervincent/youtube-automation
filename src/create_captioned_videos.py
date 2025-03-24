@@ -191,31 +191,52 @@ def create_video_with_subtitles(audio_file, output_path, use_generated_bg=True):
         return False
 
 def main():
-    """Main function to process audio files."""
+    """Main function to process all untreated audio files."""
     try:
         print("🎥 Starting video creation process...")
         
         # Create output directories
         os.makedirs("videos", exist_ok=True)
         
-        # Process just one test file
-        test_file = "processed_audio/sermon_spiritual_growth_20250322_160443_with_ambience.mp3"
-        if os.path.exists(test_file):
-            print(f"\n📂 Processing test file: {test_file}")
-            output_path = os.path.join("videos", os.path.basename(test_file).replace(".mp3", ".mp4"))
-            if create_video_with_subtitles(test_file, output_path):
-                print("\n🎉 Video creation completed successfully!")
-            else:
-                print("\n❌ Failed to create video")
-        else:
-            print(f"\n❌ Test file not found: {test_file}")
-            print("\n📁 Available files in processed_audio:")
-            for file in os.listdir("processed_audio"):
-                if file.endswith(".mp3"):
-                    print(f"  - {file}")
-
+        # Get list of all audio files
+        audio_files = glob.glob("processed_audio/*.mp3")
+        
+        # Get list of existing videos
+        existing_videos = set(os.path.splitext(os.path.basename(v))[0] 
+                            for v in glob.glob("videos/*.mp4"))
+        
+        # Filter for untreated files
+        untreated_files = [
+            audio_file for audio_file in audio_files
+            if os.path.splitext(os.path.basename(audio_file))[0] not in existing_videos
+        ]
+        
+        if not untreated_files:
+            print("\n📝 No new audio files to process!")
+            return
+            
+        print(f"\n🎯 Found {len(untreated_files)} files to process")
+        
+        # Process each untreated file
+        for audio_file in untreated_files:
+            try:
+                print(f"\n📂 Processing: {os.path.basename(audio_file)}")
+                output_path = os.path.join("videos", 
+                                         os.path.basename(audio_file).replace(".mp3", ".mp4"))
+                
+                if create_video_with_subtitles(audio_file, output_path):
+                    print(f"✅ Successfully created video: {os.path.basename(output_path)}")
+                else:
+                    print(f"❌ Failed to create video for: {os.path.basename(audio_file)}")
+                    
+            except Exception as e:
+                print(f"❌ Error processing {os.path.basename(audio_file)}: {str(e)}")
+                continue
+        
+        print("\n🎉 Video creation process completed!")
+        
     except Exception as e:
-        print(f"\n❌ Error in main process: {e}")
+        print(f"\n❌ Error in main process: {str(e)}")
 
 if __name__ == "__main__":
     main() 
