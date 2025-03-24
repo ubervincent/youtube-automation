@@ -98,11 +98,11 @@ def generate_background_image():
         image_params = {
             "model": "dall-e-3",
             "n": 1,
-            "size": "1792x1024",  # Landscape format for video background
-            "quality": "standard",  # Use standard quality to optimize cost
-            "style": "natural",    # Natural style for more realistic religious imagery
+            "size": "1792x1024",  # 16:9 widescreen aspect ratio
+            "quality": "standard",
+            "style": "natural",
             "prompt": (
-                "A serene and ethereal portrait of Jesus Christ in a contemplative pose, "
+               "A serene and ethereal portrait of Jesus Christ in a contemplative pose, "
                 "inspired by classical Renaissance masters. The composition should be "
                 "centered with soft, divine lighting illuminating the figure against a "
                 "subtle, atmospheric background. The style should blend traditional "

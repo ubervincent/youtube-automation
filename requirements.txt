@@ -6,3 +6,9 @@ moviepy==1.0.3
 openai-whisper==20231117
 numpy==1.26.4
 torch==2.2.1
+imageio-ffmpeg>=0.4.9
+Pillow==10.2.0
+decorator>=4.4.2
+torchaudio==2.2.1
+torchvision==0.17.1
+psutil==5.9.8

@@ -32,6 +32,8 @@ data/
 audio/
 processed_audio/
 videos/
+backgrounds/
+assets/
 
 # IDE specific files
 .idea/
