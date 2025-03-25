@@ -27,8 +27,10 @@ def text_to_audio(text, output_path):
             
             # Create the speech file for this chunk
             response = client.audio.speech.create(
-                model="tts-1",
-                voice="onyx",  # Using a deep, authoritative voice
+                model="gpt-4o-mini-tts",
+                voice="ash",  # Using a deep, authoritative voice
+                speed=0.78,
+                instructions="Speak in a slow and reverent tone, as if you are reading from a sacred text.",
                 input=chunk
             )
             

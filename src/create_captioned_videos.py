@@ -90,8 +90,11 @@ def transcribe_audio(audio_path):
         print(f"❌ Error transcribing audio: {e}")
         return None
 
-def generate_background_image():
-    """Generate a background image using DALL-E 3."""
+def generate_background_image(base_name=None):
+    """Generate a background image using DALL-E 3.
+    Args:
+        base_name (str, optional): Base name for the image file. If not provided, uses timestamp.
+    """
     try:
         print("🎨 Generating background image with DALL-E 3...")
         # Configure image generation parameters
@@ -126,8 +129,13 @@ def generate_background_image():
         print("📥 Downloading background image...")
         image_response = requests.get(image_url)
         if image_response.status_code == 200:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            image_path = f"backgrounds/background_{timestamp}.png"
+            # Use provided base_name or generate timestamp
+            if base_name:
+                image_path = f"backgrounds/{base_name}_background.png"
+            else:
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                image_path = f"backgrounds/background_{timestamp}.png"
+                
             with open(image_path, "wb") as f:
                 f.write(image_response.content)
             print(f"✅ Background image saved to: {image_path}")
@@ -140,11 +148,11 @@ def generate_background_image():
         print(f"❌ Error generating background image: {e}")
         return None
 
-def create_video_with_subtitles(audio_file, output_path, use_generated_bg=True):
+def create_video_with_subtitles(audio_file, output_path, use_generated_bg=True, base_name=None):
     """Create a video with subtitles using FFmpeg."""
     try:
         # Generate background image if enabled
-        background_path = generate_background_image() if use_generated_bg else "assets/default_background.png"
+        background_path = generate_background_image(base_name) if use_generated_bg else "assets/default_background.png"
         if not background_path:
             print("⚠️  Failed to generate background image, using default background")
             background_path = "assets/default_background.png"

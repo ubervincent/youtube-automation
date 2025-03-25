@@ -64,10 +64,16 @@ def main():
         unprocessed_sermons = get_unprocessed_sermons()
         
         if not unprocessed_sermons:
-            logger.info("No unprocessed sermons found.")
-            return
-            
-        logger.info(f"Found {len(unprocessed_sermons)} unprocessed sermons")
+            logger.info("No unprocessed sermons found. Generating a new sermon...")
+            new_sermon_file = generate_sermon()
+            if new_sermon_file:
+                logger.info(f"Generated new sermon: {new_sermon_file}")
+                unprocessed_sermons = [new_sermon_file]
+            else:
+                logger.error("Failed to generate new sermon")
+                return
+        
+        logger.info(f"Found {len(unprocessed_sermons)} sermons to process")
         
         for sermon_file in unprocessed_sermons:
             try:
@@ -100,7 +106,7 @@ def main():
                 
                 # Create video with subtitles
                 video_output = os.path.join('videos', f'{timestamp}_{topic}.mp4')
-                if not create_video_with_subtitles(audio_path, video_output, use_generated_bg=True):
+                if not create_video_with_subtitles(audio_path, video_output, use_generated_bg=True, base_name=f"{timestamp}_{topic}"):
                     logger.error("Failed to create video")
                     continue
                 

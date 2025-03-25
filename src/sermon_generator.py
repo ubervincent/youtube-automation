@@ -312,27 +312,27 @@ BIBLICAL_TOPICS = {
 
 def create_sermon_prompt(topic: str, topic_data: dict) -> str:
     """Create a detailed prompt for the OpenAI API."""
-    prompt = f"""Write a 1250-word sermon from Jesus Christ's perspective, speaking directly to a modern audience. The sermon must be EXACTLY 1250 words long.
+    prompt = f"""Write an 1100-word sermon from Jesus Christ's perspective, speaking directly to a modern audience. The sermon must be EXACTLY 1100 words long.
 
 Structure the sermon in this way:
-1. Loving Greeting (125 words)
+1. Loving Greeting (110 words)
    - Begin with "My beloved children,"
    - Speak with divine authority yet tender compassion
    - Connect the eternal truth with present-day relevance
 
-2. Main Teaching Points (875 words total, ~219 words each):
+2. Main Teaching Points (770 words total, ~192 words each):
    {', '.join(f'- {point}' for point in topic_data['main_points'])}
    For each point:
    - Draw parallels between biblical parables and modern situations
    - Reference both ancient wisdom and contemporary challenges
    - Speak with divine insight while remaining accessible
 
-3. Heart-to-Heart Application (125 words)
+3. Heart-to-Heart Application (110 words)
    - Provide guidance with divine wisdom
    - Share eternal principles for daily living
    - Speak to both individual and communal transformation
 
-4. Blessing and Commission (125 words)
+4. Blessing and Commission (110 words)
    - Affirm your eternal love and presence
    - Give specific encouragement for the journey ahead
    - End with a blessing that bridges heaven and earth
@@ -356,7 +356,7 @@ Voice Guidelines:
 - Show continuity: "My words to the woman at the well speak to your heart today..."
 
 Remember:
-- The sermon MUST be exactly 1250 words
+- The sermon MUST be exactly 1100 words
 - Maintain Jesus' unique voice throughout
 - Blend biblical authority with contemporary relevance
 - Every scripture should feel personally delivered
@@ -374,7 +374,7 @@ def generate_sermon_with_openai(prompt: str) -> str:
             messages=[
                 {
                     "role": "system",
-                    "content": "You are channeling the voice and perspective of Jesus Christ speaking to a modern audience. Blend divine authority with intimate compassion, eternal wisdom with contemporary understanding. Maintain the balance between heavenly perspective and earthly relevance. You MUST write exactly 1250 words - no more, no less."
+                    "content": "You are channeling the voice and perspective of Jesus Christ speaking to a modern audience. Follow this structure strictly:\n1. Opening (110 words)\n2. Main Teaching (770 words)\n3. Application (110 words)\n4. Single Closing Blessing (110 words)\nDo not repeat the closing or add multiple endings. The sermon must be exactly 1100 words total."
                 },
                 {
                     "role": "user",
@@ -383,16 +383,16 @@ def generate_sermon_with_openai(prompt: str) -> str:
             ],
             temperature=0.7,
             max_tokens=2500,
-            presence_penalty=0.6,
-            frequency_penalty=0.6
+            presence_penalty=0.6,  # Penalize topic repetition
+            frequency_penalty=0.8   # Strongly penalize word repetition
         )
         
         content = response.choices[0].message.content
         word_count = len(content.split())
         
         # If the content is too short, generate more in chunks
-        while word_count < 1200:  # Allow for some flexibility
-            remaining_words = 1250 - word_count
+        while word_count < 1050:  # Allow for some flexibility
+            remaining_words = 1100 - word_count
             last_sentences = ' '.join(content.split()[-150:])
             
             continuation_prompt = f"""Continue this sermon to add approximately {remaining_words} more words.
@@ -402,14 +402,15 @@ def generate_sermon_with_openai(prompt: str) -> str:
             - You may modify the last few sentences of the previous content to ensure smooth flow
             - Maintain the same style, tone, and thematic consistency
             - Ensure natural transitions between ideas
-            - Keep building toward the sermon's conclusion"""
+            - Keep building toward a SINGLE conclusion
+            - Do not add multiple endings or blessings"""
             
             continuation = client.chat.completions.create(
                 model="gpt-4",
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are continuing a sermon. Focus on maintaining flow and coherence with the previous content. You may adjust the ending of the previous section if needed for better transition."
+                        "content": "You are continuing a sermon. Focus on maintaining flow and coherence with the previous content. Do not add multiple endings or repeat the blessing. End with a single, powerful closing blessing."
                     },
                     {
                         "role": "assistant",
@@ -421,7 +422,9 @@ def generate_sermon_with_openai(prompt: str) -> str:
                     }
                 ],
                 temperature=0.7,
-                max_tokens=2000
+                max_tokens=2000,
+                presence_penalty=0.6,
+                frequency_penalty=0.8
             )
             
             additional_content = continuation.choices[0].message.content
@@ -435,13 +438,13 @@ def generate_sermon_with_openai(prompt: str) -> str:
             print(f"Current sermon length: {word_count} words")
             
             # Prevent infinite loops
-            if len(content.split()) >= 1200:
+            if len(content.split()) >= 1050:
                 break
         
         # Final word count check
         final_word_count = len(content.split())
-        if final_word_count < 1200 or final_word_count > 1300:
-            print(f"Warning: Final sermon length is {final_word_count} words (target: 1250)")
+        if final_word_count < 1050 or final_word_count > 1150:
+            print(f"Warning: Final sermon length is {final_word_count} words (target: 1100)")
         
         return content
     except Exception as e:
